@@ -1,0 +1,76 @@
+.chat-wrapper {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  background: linear-gradient(135deg, #232526, #414345);
+  font-family: "Segoe UI", sans-serif;
+  color: #fff;
+}
+
+.chat-title {
+  text-align: center;
+  font-size: 26px;
+  margin-bottom: 15px;
+}
+
+.chat-box {
+  flex: 1;
+  background: rgba(39, 91, 162, 0.05);
+  border-radius: 10px;
+  padding: 15px;
+  overflow-y: auto;
+  box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.3);
+}
+
+/* Tin nhắn */
+.chat-message {
+  padding: 8px 12px;
+  border-radius: 8px;
+  margin-bottom: 10px;
+  max-width: 75%;
+  word-wrap: break-word;
+}
+
+/* Tin nhắn của mình */
+.my-message {
+  background: linear-gradient(135deg, #4facfe, #00f2fe);
+  color: black;
+  margin-left: auto;
+}
+
+/* Tin nhắn của người khác */
+.other-message {
+  background: rgba(255, 255, 255, 0.15);
+}
+
+/* Khu vực nhập tin nhắn */
+.chat-input-area {
+  display: flex;
+  margin-top: 15px;
+}
+
+.chat-input {
+  flex: 1;
+  padding: 12px;
+  border: none;
+  border-radius: 8px 0 0 8px;
+  font-size: 16px;
+  outline: none;
+}
+
+.chat-button {
+  background: linear-gradient(90deg, #ff7eb3, #ff758c);
+  border: none;
+  padding: 12px 18px;
+  color: white;
+  font-weight: bold;
+  border-radius: 0 8px 8px 0;
+  cursor: pointer;
+  transition: opacity 0.3s ease, transform 0.2s ease;
+}
+
+.chat-button:hover {
+  opacity: 0.9;
+  transform: scale(1.05);
+}

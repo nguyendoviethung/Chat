@@ -1,0 +1,17 @@
+{
+    "name": "dell/chat-backend",
+    "autoload": {
+        "psr-4": {
+            "Dell\\ChatBackend\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "nguyenviethung2107",
+            "email": "nguyenviethung21072004@gmail.com"
+        }
+    ],
+    "require": {
+        "cboden/ratchet": "^0.4.4"
+    }
+}

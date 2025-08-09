@@ -1,0 +1,64 @@
+/* Toàn màn hình căn giữa */
+.login-wrapper {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(135deg, #4a90e2, #9013fe);
+  font-family: "Segoe UI", sans-serif;
+}
+
+/* Hộp login */
+.login-container {
+  background: rgba(246, 121, 121, 0.1);
+  padding: 40px;
+  border-radius: 16px;
+  backdrop-filter: blur(12px);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+  text-align: center;
+  width: 320px;
+}
+
+/* Tiêu đề */
+.login-title {
+  color: #ebefef;
+  margin-bottom: 20px;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+/* Ô nhập */
+.login-input {
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 20px;
+  border: none;
+  border-radius: 8px;
+  outline: none;
+  font-size: 16px;
+  box-sizing: border-box;
+  transition: all 0.3s ease;
+}
+
+.login-input:focus {
+  box-shadow: 0 0 10px #fff;
+}
+
+/* Nút bấm */
+.login-button {
+  width: 100%;
+  padding: 12px;
+  background: linear-gradient(90deg, #ff7eb3, #ff758c);
+  color: white;
+  font-size: 16px;
+  font-weight: bold;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: transform 0.2s ease, opacity 0.3s ease;
+}
+
+.login-button:hover {
+  transform: scale(1.02);
+  opacity: 0.9;
+}
