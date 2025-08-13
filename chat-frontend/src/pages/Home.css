@@ -1,0 +1,73 @@
+.home-wrapper {
+  max-width: 800px;
+  margin: 50px auto;
+  padding: 30px;
+  background: #f9fafb;
+  border-radius: 16px;
+  box-shadow: 0 4px 25px rgba(0, 0, 0, 0.08);
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.home-title {
+  font-size: 28px;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 25px;
+  color: #1a1a1a;
+}
+
+.btn-logout {
+  display: block;
+  margin: 0 auto 30px;
+  padding: 10px 20px;
+  font-size: 16px;
+  background: linear-gradient(135deg, #ff4d4f, #ff7875);
+  border: none;
+  border-radius: 8px;
+  color: white;
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+.btn-logout:hover {
+  background: linear-gradient(135deg, #d9363e, #ff4d4f);
+}
+
+.friend-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: white;
+  padding: 15px 20px;
+  border-radius: 10px;
+  margin-bottom: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.friend-item:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.friend-name {
+  font-size: 18px;
+  font-weight: 500;
+  color: #333;
+}
+
+.btn-chat {
+  padding: 8px 16px;
+  background: linear-gradient(135deg, #1890ff, #40a9ff);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background 0.3s ease, transform 0.1s ease;
+}
+.btn-chat:hover {
+  background: linear-gradient(135deg, #096dd9, #1890ff);
+}
+.btn-chat:active {
+  transform: scale(0.96);
+}

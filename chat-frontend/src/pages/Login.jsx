@@ -1,19 +1,43 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import "./Login.css"; //
+import "./Login.css"; 
+import axios from "axios";
+
 export default function Login() {
   const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
   const navigate = useNavigate();
 
-  const handleLogin = () => {
-    if (!username.trim()) {
-      alert("Nhập tên trước khi vào chat!");
-      return;
+const handleLogin = async () => {
+  try {
+    const result = await axios.post(
+      "http://localhost:8080/login.php",
+      {
+        username: username,
+        password: password,
+      },
+      {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+
+    console.log("Response from backend:", result.data);
+
+    if (result.data.status === "true") {
+      localStorage.setItem("username", username);  // Lưu tên người dùng vào localStorage
+      localStorage.setItem(`token_${username}`, result.data.token); // Lưu token vào localStorage với khóa duy nhất cho từng người dùng
+      navigate("/home");
+    } else {
+      alert("Đăng nhập thất bại. Vui lòng thử lại.");
+      console.log(result)
     }
-    // Lưu tạm username vào localStorage
-    localStorage.setItem("username", username);
-    navigate("/chat");
-  };
+  } catch (error) {
+    console.error("Login error:", error);
+    alert("Lỗi kết nối tới server");
+  }
+};
 
   return (
   <div className = "login-wrapper">
@@ -25,6 +49,14 @@ export default function Login() {
         placeholder="Nhập tên..."
         value={username}
         onChange={(e) => setUsername(e.target.value)}
+      />
+
+      <input
+        className="login-input"
+        type="password"
+        placeholder="Nhập mật khẩu..."
+        value={password}
+        onChange={(e) => setPassword(e.target.value)}
       />
       <button 
         onClick={handleLogin}
