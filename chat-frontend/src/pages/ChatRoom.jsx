@@ -9,6 +9,7 @@
     const username = localStorage.getItem("username");  // Lấy tên người dùng từ localStorage
     const token = localStorage.getItem(`token_${username}`); // Lấy token từ localStorage với khóa duy nhất cho từng người dùng
     const [ws, setWs] = useState(null);
+    const [myUserId, setMyUserId] = useState(null);
 
   useEffect(() => {
     const messageSent = async () => {
@@ -17,11 +18,9 @@
     params : {friend_id : friend_ID},
     headers: { Authorization: `Bearer ${token}` }
     });
-    // console.log(result.data)
-    // setMessages(result.data);
       if (Array.isArray(result.data)) {
         setMessages(result.data);
-        console.log(messages.data)
+        console.log(result.data)
       } else {
         console.error("API không trả về mảng:", result.data);
         setMessages([]);
@@ -50,8 +49,14 @@
     //Nhận tin nhắn phía sever
       socket.onmessage = (event) => {
         const msg = JSON.parse(event.data);
-        setMessages((prev) => [...prev, msg]);
-        
+        if (msg.type === "auth_success") {
+          setMyUserId(msg.user_id);
+          return;
+        }
+        if (msg.type === "message") {
+          const normalized = { sender_id: msg.user, content: msg.text, sent_at: msg.time };
+          setMessages((prev) => Array.isArray(prev) ? [...prev, normalized] : [normalized]);
+        }
       };
 
     // Đóng kết nối Websocket
@@ -61,7 +66,7 @@
 
       setWs(socket);
       return () => socket.close();
-    }, []);
+    }, [friend_ID, token]);
 
     const sendMessage = () => {
       if (ws && input.trim()) {
@@ -81,16 +86,16 @@
           X
         </button>
         <div className="chat-box">
-          {messages.length > 0 && (messages.map((m, i) => (
+          {Array.isArray(messages) && messages.length > 0 && messages.map((m, i) => (
             <div
               key={i}
               className={`chat-message ${
-                m.sender_id === username ? "my-message" : "other-message"
+                m.sender_id === myUserId ? "my-message" : "other-message"
               }`}
             >
-              <strong>{m.username}:</strong> {m.content}
+              <strong>{m.sender_id === myUserId ? username : friendName}:</strong> {m.content}
             </div>
-          )))}
+          ))}
         </div>
 
         <div className="chat-input-area">
