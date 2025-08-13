@@ -2,7 +2,7 @@
   import axios from "axios";
   import "./ChatRoom.css";
 
-  export default function ChatRoom({onClose, friend_id, friendName}) {
+  export default function ChatRoom({onClose, friend_ID,friendName}) {
     
     const [messages, setMessages] = useState([]);
     const [input, setInput] = useState("");
@@ -10,57 +10,73 @@
     const token = localStorage.getItem(`token_${username}`); // Lấy token từ localStorage với khóa duy nhất cho từng người dùng
     const [ws, setWs] = useState(null);
 
-    useEffect(() => {
- 
-     const messageSent = async () => {
-     try {
-      const result = await axios.get("http://localhost:8080/message-sent.php", {
-          token : token,
-          friend_id: friend_id
-      });
-      setMessages(result.data); // Lưu dữ liệu tin nhắn vào state
-      } catch (error) {
-        console.error("Lỗi khi lấy tin nhắn:", error);
-     }
+  useEffect(() => {
+    const messageSent = async () => {
+    try {
+    const result = await axios.get("http://localhost:8080/message-sent.php", {
+    params : {friend_id : friend_ID},
+    headers: { Authorization: `Bearer ${token}` }
+    });
+    // console.log(result.data)
+    // setMessages(result.data);
+      if (Array.isArray(result.data)) {
+        setMessages(result.data);
+        console.log(messages.data)
+      } else {
+        console.error("API không trả về mảng:", result.data);
+        setMessages([]);
+      }
+    } catch (error) {
+    console.error("Lỗi khi lấy tin nhắn:", error);
+    }
   };
-    
-    messageSent(); // Lấy tin nhắn đã nhắn 
+
+    if (friend_ID) {
+    messageSent();
+    }
 
       // Kết nối Websocket
-      const socket = new WebSocket("ws://localhost:9000");
+    const socket = new WebSocket("ws://localhost:9000");
 
-      socket.onopen = () => {
-        console.log(" Kết nối WebSocket thành công");
-        socket.send(JSON.stringify({ 
-          type: "join", 
-          user_id: user_id, 
-          friend_id: friend_id }));
+    socket.onopen = () => {
+      console.log("Kết nối WebSocket thành công");
+      // Gửi token ngay sau khi kết nối
+      socket.send(JSON.stringify({
+      type: "auth",
+      token: token,
+        }));
       };
 
+    //Nhận tin nhắn phía sever
       socket.onmessage = (event) => {
         const msg = JSON.parse(event.data);
         setMessages((prev) => [...prev, msg]);
         
       };
 
+    // Đóng kết nối Websocket
       socket.onclose = () => {
         console.log("Mất kết nối WebSocket");
       };
 
       setWs(socket);
       return () => socket.close();
-    }, [username,friend_id]);
+    }, []);
 
     const sendMessage = () => {
       if (ws && input.trim()) {
-        ws.send(JSON.stringify({ type: "message", user: username, text: input }));
+        ws.send(JSON.stringify({  
+        type: "message",
+        receiver_id: friend_ID,
+        text: input}
+      ));
         setInput("");
       }
     };
 
     return (
       <div className="chat-wrapper">
-        <h2 className="chat-title">{`Phòng Chat với ${name}`}</h2>
+        <h2 className="chat-title">{`Phòng Chat với ${friendName}`}</h2>
         <button className="btn-close" onClick={onClose}>
           X
         </button>
@@ -69,10 +85,10 @@
             <div
               key={i}
               className={`chat-message ${
-                m.user === username ? "my-message" : "other-message"
+                m.sender_id === username ? "my-message" : "other-message"
               }`}
             >
-              <strong>{m.user}:</strong> {m.text}
+              <strong>{m.username}:</strong> {m.content}
             </div>
           )))}
         </div>

@@ -2,7 +2,7 @@
 require 'vendor/autoload.php';
 use Firebase\JWT\JWT;
 
-function create_jwt($userData) {
+function create_jwt($userId, $username) {
     $config = require __DIR__ . '/jwt_config.php';
 
     $payload = [
@@ -10,7 +10,10 @@ function create_jwt($userData) {
         "aud" => $config['audience'],
         "iat" => time(),
         "exp" => time() + $config['expire_time'],
-        "data" => $userData
+        "data" => [
+            'id' => $userId,
+            'username' => $username,
+        ]
     ];
 
     return JWT::encode($payload, $config['key'], 'HS256');

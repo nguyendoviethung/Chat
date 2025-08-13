@@ -5,31 +5,19 @@ header("Access-Control-Allow-Headers: Content-Type, Authorization, X-Requested-W
 header("Content-Type: application/json; charset=UTF-8");
 
 require 'vendor/autoload.php';
-require './connect.php'; // file kết nối DB
+require './connect.php'; 
+require __DIR__ . '/config/get_jwt.php';
+require __DIR__ .'/config/decode_jwt.php';
 
-use \Firebase\JWT\JWT;
-use \Firebase\JWT\Key;
-
-// Nếu là preflight request
 if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
     http_response_code(200);
     exit();
 }
 
-// Lấy Authorization header
-$headers = getallheaders();
-if (!isset($headers['Authorization'])) {
-    http_response_code(401);
-    echo json_encode(["status" => "false", "error" => "Thiếu token"]);
-    exit();
-}
-
-list($type, $jwt) = explode(" ", $headers['Authorization']);
-$key = "mySuperSecretKey123!@#";
+$jwt = get_jwt_from_header();
 
 try {
-    // Giải mã token
-    $decoded = JWT::decode($jwt, new Key($key, 'HS256'));
+    $decoded = decode_jwt($jwt);
     $user_id = $decoded->data->id;
 
     $stmt = $pdo->prepare("

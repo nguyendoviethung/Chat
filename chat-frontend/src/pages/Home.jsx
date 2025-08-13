@@ -6,18 +6,17 @@ import "./Home.css";
  export default function Home() {
     const [hide, setHide] = useState(false);
     const [listFriend, setListFriend] = useState([]); // Danh sách bạn bè
-    const [chatFriend, setChatFriend] = useState(); // ID của bạn bè để chat
+    const [chatFriendID, setChatFriendID] = useState(); // ID của bạn bè để chat
     const [friendName , setFriendName] = useState(); // Tên của bạn đang chat
+    const username = localStorage.getItem("username");  // Lấy tên người dùng từ localStorage
+    const token = localStorage.getItem(`token_${username}`); // Lấy token từ localStorage với khóa duy nhất cho từng người dùng
 
-    const handleLogout = () => {
+     const handleLogout = () => {
         localStorage.removeItem("username");
-        localStorage.removeItem("token");
+        localStorage.removeItem(`token_${username}`);
         window.location.href = "/"; 
     };
 
-    const username = localStorage.getItem("username");  // Lấy tên người dùng từ localStorage
-    const token = localStorage.getItem(`token_${username}`); // Lấy token từ localStorage với khóa duy nhất cho từng người dùng
-    
     useEffect(() => {
         
         const listFriend = async () => {
@@ -54,7 +53,7 @@ import "./Home.css";
                     <span className="friend-name">{friend.full_name}</span>
                     <button className="btn-chat" onClick={() => {
                         setHide(true);
-                        setChatFriend(friend.friend_id);
+                        setChatFriendID(friend.friend_id);
                         setFriendName(friend.full_name);
                     }}>
                         Open Chat
@@ -64,7 +63,7 @@ import "./Home.css";
         )}  
          {hide && <ChatRoom 
                     onClose = {() => setHide(false)}
-                    friend_id = {chatFriend} 
+                    friend_ID = {chatFriendID} 
                     friendName = {friendName}
                   />
                     }

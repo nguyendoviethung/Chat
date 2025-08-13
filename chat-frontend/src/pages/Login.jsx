@@ -23,8 +23,6 @@ const handleLogin = async () => {
       }
     );
 
-    console.log("Response from backend:", result.data);
-
     if (result.data.status === "true") {
       localStorage.setItem("username", username);  // Lưu tên người dùng vào localStorage
       localStorage.setItem(`token_${username}`, result.data.token); // Lưu token vào localStorage với khóa duy nhất cho từng người dùng

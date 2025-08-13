@@ -4,11 +4,8 @@ header("Access-Control-Allow-Methods: GET, POST, OPTIONS");
 header("Access-Control-Allow-Headers: Content-Type, Authorization, X-Requested-With");
 header("Content-Type: application/json; charset=UTF-8");
 
-require 'vendor/autoload.php'; // thư viện JWT
-require './connect.php'; // file kết nối db PostgreSQL
-
-use \Firebase\JWT\JWT;
-use \Firebase\JWT\Key;
+require __DIR__ . '/connect.php'; 
+require __DIR__ . '/config/jwt_helper.php'; 
 
 // Nếu là preflight request, trả về ngay
 if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
@@ -29,7 +26,7 @@ $username = $data['username'];
 $password = $data['password'];
 
 try {
-    // $pdo đã được khởi tạo từ db_connect.php
+    
     $stmt = $pdo->prepare("SELECT id, username, password_hash FROM users WHERE username = ?");
     $stmt->execute([$username]);
     $user = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -46,19 +43,7 @@ try {
         exit();
     }
 
-    $key = "mySuperSecretKey123!@#"; // Khóa bí mật để mã hóa JWT
-    $payload = [
-        "iss" => "chat-backend",
-        "aud" => "chat-frontend",   
-        "iat" => time(),
-        "exp" => time() + 3600,
-        "data" => [
-            "id" => $user['id'],
-            "username" => $user['username'],
-        ]
-    ];
-
-    $jwt = JWT::encode($payload, $key, 'HS256');
+    $jwt = create_jwt($user['id'] , $user['username']);
 
     echo json_encode([
         "token" => $jwt,
