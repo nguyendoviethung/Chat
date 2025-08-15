@@ -5,8 +5,8 @@ header("Access-Control-Allow-Headers: Content-Type, Authorization, X-Requested-W
 header("Content-Type: application/json; charset=UTF-8");
 
 require 'vendor/autoload.php';
-require './connect.php'; 
-require __DIR__ . '/config/get_jwt.php';
+require __DIR__ .'/config/connect.php'; 
+require __DIR__ .'/config/get_jwt.php';
 require __DIR__ .'/config/decode_jwt.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {

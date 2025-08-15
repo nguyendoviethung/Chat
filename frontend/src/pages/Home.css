@@ -2,7 +2,7 @@
   max-width: 800px;
   margin: 50px auto;
   padding: 30px;
-  background: #f9fafb;
+  background: #5c98d4;
   border-radius: 16px;
   box-shadow: 0 4px 25px rgba(0, 0, 0, 0.08);
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
@@ -64,6 +64,7 @@
   font-size: 14px;
   cursor: pointer;
   transition: background 0.3s ease, transform 0.1s ease;
+  font-weight: 400px;
 }
 .btn-chat:hover {
   background: linear-gradient(135deg, #096dd9, #1890ff);

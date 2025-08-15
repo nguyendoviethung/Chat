@@ -1,24 +1,25 @@
 import ChatRoom from "./ChatRoom";
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import "./Home.css";
 
- export default function Home() {
+export default function Home() {
     const [hide, setHide] = useState(false);
     const [listFriend, setListFriend] = useState([]); // Danh sách bạn bè
     const [chatFriendID, setChatFriendID] = useState(); // ID của bạn bè để chat
     const [friendName , setFriendName] = useState(); // Tên của bạn đang chat
     const username = localStorage.getItem("username");  // Lấy tên người dùng từ localStorage
     const token = localStorage.getItem(`token_${username}`); // Lấy token từ localStorage với khóa duy nhất cho từng người dùng
+    const navigate = useNavigate();
 
-     const handleLogout = () => {
+    const handleLogout = () => {
         localStorage.removeItem("username");
         localStorage.removeItem(`token_${username}`);
-        window.location.href = "/"; 
+        navigate("/");  
     };
 
     useEffect(() => {
-        
         const listFriend = async () => {
             try {
                 const response = await axios.get("http://localhost:8080/list-friend.php", {
@@ -27,7 +28,7 @@ import "./Home.css";
                         "Authorization": `Bearer ${token}` 
                     }
                 });
-                console.log("Response from backend:", response.data);
+
                 if (response.data.status === "true") {
                     setListFriend(response.data.friends);
                 } else {
@@ -43,7 +44,7 @@ import "./Home.css";
     
  return (
     <div className="home-wrapper">
-        <h1 className="home-title">Welcome to the Chat Application của {username}</h1>
+        <h1 className="home-title">Welcome to the Chat Application of {username}</h1>
               <button className="btn-logout" onClick={handleLogout}>
                 Logout
               </button>

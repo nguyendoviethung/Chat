@@ -1,9 +1,7 @@
-import React from "react";
 import ReactDOM from "react-dom/client";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import App from "./App";
 import Login from "./pages/Login";
-import ChatRoom from "./pages/ChatRoom";
 import Home from "./pages/Home";
 const router = createBrowserRouter([
   {
@@ -13,13 +11,8 @@ const router = createBrowserRouter([
       { path: "/home", element: <Home /> },
     ],
   },
-  // {
-  //   path: "/", element : <Count />
-  // }
 ]);
 
 ReactDOM.createRoot(document.getElementById("root")).render(
-  
     <RouterProvider router={router} />
-
 );

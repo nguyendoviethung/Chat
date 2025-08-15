@@ -1,7 +1,7 @@
 <?php
-require __DIR__ . '/vendor/autoload.php';
-require './connect.php'; 
-require __DIR__ . '/config/decode_jwt.php';
+require __DIR__ .'/vendor/autoload.php';
+require __DIR__ .'/config/connect.php'; 
+require __DIR__ .'/config/decode_jwt.php';
 
 use Ratchet\MessageComponentInterface;
 use Ratchet\ConnectionInterface;
@@ -30,8 +30,8 @@ class ChatServer implements MessageComponentInterface {
             return;
         }
 
-        // === Xác thực JWT ===
-        if ($data['type'] === 'auth') {
+        // Xác thực JWT
+        if ($data['type'] === 'auth'){
             try {
                 $decoded = decode_jwt($data['token']);
                 $user_id = $decoded->data->id;

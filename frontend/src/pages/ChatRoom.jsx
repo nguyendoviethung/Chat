@@ -2,12 +2,12 @@
   import axios from "axios";
   import "./ChatRoom.css";
 
-  export default function ChatRoom({onClose, friend_ID,friendName}) {
+  export default function ChatRoom({onClose, friend_ID, friendName}) {
     
     const [messages, setMessages] = useState([]);
     const [input, setInput] = useState("");
-    const username = localStorage.getItem("username");  // Lấy tên người dùng từ localStorage
-    const token = localStorage.getItem(`token_${username}`); // Lấy token từ localStorage với khóa duy nhất cho từng người dùng
+    const username = localStorage.getItem("username");  
+    const token = localStorage.getItem(`token_${username}`); 
     const [ws, setWs] = useState(null);
     const [myUserId, setMyUserId] = useState(null);
 
@@ -20,7 +20,6 @@
     });
       if (Array.isArray(result.data)) {
         setMessages(result.data);
-        console.log(result.data)
       } else {
         console.error("API không trả về mảng:", result.data);
         setMessages([]);
@@ -93,7 +92,7 @@
                 m.sender_id === myUserId ? "my-message" : "other-message"
               }`}
             >
-              <strong>{m.sender_id === myUserId ? username : friendName}:</strong> {m.content}
+              <strong>{m.sender_id === myUserId ? "bạn" : friendName}:</strong> {m.content}
             </div>
           ))}
         </div>
